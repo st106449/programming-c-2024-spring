@@ -1,0 +1,49 @@
+// 1
+
+#include <iostream>
+#include <cstdlib>
+#include <omp.h>
+#include <cmath>
+
+int main()
+{
+	double t = omp_get_wtime();
+
+#pragma omp parallel for
+for (int n = 0; n<100'000'000; ++n)
+{
+	sin(3.14 * n / (2 * 100'000'000));
+}
+ 
+	std::cout << "Time: " << (omp_get_wtime() - t)*1000 << std::endl;
+	return EXIT_SUCCESS;
+}
+
+// 2
+
+#include <iostream> 
+#include <omp.h> 
+using namespace std;
+#include <cmath>
+int main()
+{
+
+	int n = 100000000;
+	double k;
+	double sum = 0;
+
+#pragma omp parallel for reduction(+:sum)
+
+
+	for (int i = 0; i < 100'000'000; ++i)
+	{
+		k = 1.0 / (1 + ((2 * (i + 1) - 1.0) / (2 * n))*((2 * (i + 1) - 1.0) / (2 * n)));
+		sum += k;
+
+	}
+
+	std::cout << 4 * (1.0 / n)*sum << std::endl;
+
+	system("Pause");
+	return EXIT_SUCCESS;
+}
