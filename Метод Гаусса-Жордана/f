@@ -1,0 +1,79 @@
+#include <iostream>
+
+
+double** divide(double** Matrix,int k, double R,int m)
+{
+    for(int i = 0;i<m;++i)
+    {
+        Matrix[k][i] = Matrix[k][i]/R;
+    }
+    return Matrix;
+}
+double** substract(double** Matrix, int k, int l,double R, int m)
+{
+    for(int i = 0; i < m; ++i)
+    {
+        Matrix[l][i] -= Matrix[k][i]*R;
+    }
+    return Matrix;
+}
+double ** transform(double** Matrix, int n, int m)
+{
+    for(int i = 0; i<m;++i)
+    {
+        c = new double[m];
+        c = Matrix[i];
+        Matrix[i] = Matrix[MaxColInd(Matrix, n, i,n-i)];
+        Matrix[MaxColInd] = c;
+        for(j = i+1; j < n; ++j)
+        Matrix = substract(Matrix, i, j, ((Matrix[j][i])/(Matrix[i][i])),m )
+    }
+}
+int MaxColInd(double** Matrix, int n, int m, int k) //номер строки с максимальным элементом в столбце m между строками k и n
+{
+    int j = k;
+    for(int i= k; i < n; ++i)
+    {
+        if(Matrix[j][m] < Matrix[i][m])
+        {
+            j = i;
+        }
+        
+    }
+    return j;
+}
+
+int main()
+{
+    int m, n;
+    std::cin >> n >> m;
+    double** Matrix = new double*[n];
+   for(int i = 0; i<n;++i)
+    {
+       Matrix[i] = new double[m];
+    }
+    for(int i = 0;i<n;++i)
+    {
+        for(int j = 0;j<m;++j)
+        {
+            std::cin>> Matrix[i][j];
+        }
+        
+    }
+    int k;
+    std::cin >> k;
+    int l;
+    std::cin >> l;
+    double R;
+    std::cin>>R;
+    Matrix = substract(Matrix, k-1, l-1, R, m);
+    for(int i = 0;i<n;++i)
+    {
+        for(int j = 0;j<m;++j)
+        {
+            std::cout<< Matrix[i][j]<< " ";
+        }
+        std::cout <<std::endl;
+    }
+    return EXIT_SUCCESS;
+}
