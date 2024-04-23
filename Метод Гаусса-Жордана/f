@@ -28,6 +28,7 @@ double ** transform(double** Matrix, int n, int m)
         t = MaxColInd(Matrix, n, i,i);
         Matrix[i] = Matrix[t];
         Matrix[t] = c;
+        //parallel
         for(int j = 0; j < n; ++j)
         {
             if(j != i)
