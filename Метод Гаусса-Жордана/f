@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <cmath>
 
 double** divide(double** Matrix,int k, double R,int m)
 {
@@ -17,24 +17,34 @@ double** substract(double** Matrix, int k, int l,double R, int m)
     }
     return Matrix;
 }
+int MaxColInd(double** Matrix, int n, int m, int k);
 double ** transform(double** Matrix, int n, int m)
 {
-    for(int i = 0; i<m;++i)
+    double* c;
+    int t;
+    for(int i = 0; i<m-1;++i)
     {
-        c = new double[m];
         c = Matrix[i];
-        Matrix[i] = Matrix[MaxColInd(Matrix, n, i,n-i)];
-        Matrix[MaxColInd] = c;
-        for(j = i+1; j < n; ++j)
-        Matrix = substract(Matrix, i, j, ((Matrix[j][i])/(Matrix[i][i])),m )
+        t = MaxColInd(Matrix, n, i,i);
+        Matrix[i] = Matrix[t];
+        Matrix[t] = c;
+        for(int j = 0; j < n; ++j)
+        {
+            if(j != i)
+            {
+                Matrix = substract(Matrix, i, j, ((Matrix[j][i])/(Matrix[i][i])),m );
+            }
+        }
+        Matrix = divide(Matrix, i, Matrix[i][i], m);
     }
+    return Matrix;
 }
 int MaxColInd(double** Matrix, int n, int m, int k) //номер строки с максимальным элементом в столбце m между строками k и n
 {
     int j = k;
     for(int i= k; i < n; ++i)
     {
-        if(Matrix[j][m] < Matrix[i][m])
+        if(fabs(Matrix[j][m]) < fabs(Matrix[i][m]))
         {
             j = i;
         }
@@ -60,20 +70,18 @@ int main()
         }
         
     }
-    int k;
-    std::cin >> k;
-    int l;
-    std::cin >> l;
-    double R;
-    std::cin>>R;
-    Matrix = substract(Matrix, k-1, l-1, R, m);
+    //for(int i = 0; i<m; ++i)
+    //{
+    //    std::cout << Matrix[MaxColInd(Matrix,n, i, 0)][i] << std::endl;
+   // }
+   Matrix = transform(Matrix,n,m);
     for(int i = 0;i<n;++i)
-    {
-        for(int j = 0;j<m;++j)
+   {
+       for(int j = 0;j<m;++j)
         {
-            std::cout<< Matrix[i][j]<< " ";
+        std::cout<< Matrix[i][j]<< " ";
         }
-        std::cout <<std::endl;
+       std::cout << std::endl;
     }
     return EXIT_SUCCESS;
 }
